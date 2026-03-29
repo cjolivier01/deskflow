@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: (C) 2026 Deskflow Developers
+# SPDX-License-Identifier: MIT
+
+[Unit]
+Description=Deskflow user session service
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/deskflow
+
+[Install]
+WantedBy=default.target

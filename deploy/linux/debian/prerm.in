@@ -1,0 +1,17 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: (C) 2026 Deskflow Developers
+# SPDX-License-Identifier: MIT
+
+set -e
+
+UNIT_NAME="deskflow.service"
+
+case "$1" in
+  remove|deconfigure)
+    if command -v systemctl >/dev/null 2>&1; then
+      systemctl --global disable "$UNIT_NAME" >/dev/null 2>&1 || true
+    fi
+    ;;
+esac
+
+exit 0

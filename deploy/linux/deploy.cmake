@@ -33,6 +33,38 @@ configure_file(
   @ONLY
 )
 
+# Install a user-level systemd unit for Deskflow.
+set(SYSTEMD_USER_UNIT_NAME deskflow.service)
+set(SYSTEMD_USER_UNIT_DIR lib/systemd/user)
+configure_file(
+  ${MY_DIR}/${SYSTEMD_USER_UNIT_NAME}.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${SYSTEMD_USER_UNIT_NAME}
+  @ONLY
+)
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/${SYSTEMD_USER_UNIT_NAME}
+  DESTINATION ${SYSTEMD_USER_UNIT_DIR}
+)
+
+# Prepare Debian maintainer scripts to enable user unit defaults globally.
+set(DEBIAN_POSTINST ${CMAKE_CURRENT_BINARY_DIR}/postinst)
+set(DEBIAN_PRERM ${CMAKE_CURRENT_BINARY_DIR}/prerm)
+configure_file(${MY_DIR}/debian/postinst.in ${DEBIAN_POSTINST} @ONLY)
+configure_file(${MY_DIR}/debian/prerm.in ${DEBIAN_PRERM} @ONLY)
+file(
+  CHMOD
+  ${DEBIAN_POSTINST}
+  ${DEBIAN_PRERM}
+  PERMISSIONS
+  OWNER_READ OWNER_WRITE OWNER_EXECUTE
+  GROUP_READ GROUP_EXECUTE
+  WORLD_READ WORLD_EXECUTE
+)
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+  ${DEBIAN_POSTINST}
+  ${DEBIAN_PRERM}
+)
+
 set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "qt6-svg-plugins")

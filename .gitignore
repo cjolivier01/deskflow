@@ -44,8 +44,10 @@ CMakeFiles/*
 /.vscode
 
 # scripts folder
-/scripts
+/scripts/*
+!/scripts/build-deb.sh
 
 # Ai helperfilers
 **/[cC]laude.[mM][dD]
 **/CLAUDE.[mM][dD]
+build-deb
