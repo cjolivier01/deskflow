@@ -46,6 +46,7 @@ CMakeFiles/*
 # scripts folder
 /scripts/*
 !/scripts/build-deb.sh
+!/scripts/install_deps.sh
 
 # Ai helperfilers
 **/[cC]laude.[mM][dD]
